@@ -47,7 +47,6 @@ def construct_message(recipient, links):
 
             {link4}
             """.format(name=name, link1=links[0], link2=links[1], link3=links[2], link4=links[3])
-    print(text)
     html = TEMPLATE.format(name=name, link1=links[0], link2=links[1], link3=links[2], link4=links[3])
 
     part1 = MIMEText(text, "plain")
@@ -64,6 +63,5 @@ context = ssl.create_default_context()
 with smtplib.SMTP_SSL("smtp.gmail.com", PORT, context=context) as server:
     server.login(ADDRESS, PASSWORD)
     for contact in CONTACTS:
-        print(contact)
         message = construct_message(contact, LINKS)
         server.sendmail(ADDRESS, contact[1], message.as_string())
