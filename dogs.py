@@ -37,8 +37,8 @@ def construct_message(recipient, links):
     message["To"] = r_addr
 
     text = """\
-            Good morning {name}
-            Here are three great dog pictures for you to enjoy!
+            Good morning {name}!
+            Here are our dogs of the day!!
             {link1}
 
             {link2}
@@ -47,6 +47,7 @@ def construct_message(recipient, links):
 
             {link4}
             """.format(name=name, link1=links[0], link2=links[1], link3=links[2], link4=links[3])
+    print(text)
     html = TEMPLATE.format(name=name, link1=links[0], link2=links[1], link3=links[2], link4=links[3])
 
     part1 = MIMEText(text, "plain")
