@@ -2,24 +2,27 @@
 import smtplib, ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from datetime import date
 import requests
 import sys
+import os
 
 # GLOBALS
 PORT = 465
 ADDRESS = "cute.dog.pics.daily@gmail.com"
 NUM = 4
 URL = f"https://dog.ceo/api/breeds/image/random/{NUM}"
+DIR = os.path.dirname(os.path.realpath(__file__))
 
-with open("template.html") as f:
+with open(f"{DIR}/template.html") as f:
     TEMPLATE = f.read()
 
 # read password from file
-with open("creds", "r") as f:
+with open(f"{DIR}/creds", "r") as f:
     PASSWORD = f.read().rstrip()
 
 # get recepient addresses
-with open("recipients.csv", "r") as f:
+with open(f"{DIR}/recipients.csv", "r") as f:
     CONTACTS = [ (x.split(',')[0], x.split(',')[1].strip()) for x in f.readlines()]
 
 def get_dog_links(url=URL):
@@ -32,7 +35,7 @@ def get_dog_links(url=URL):
 def construct_message(recipient, links):
     (name, r_addr) = recipient
     message = MIMEMultipart("alternative")
-    message["Subject"] = "multipart test"
+    message["Subject"] = "Daily Dog Dose -- {}".format(date.today().strftime("%m/%d/%y"))
     message["From"] = ADDRESS
     message["To"] = r_addr
 
